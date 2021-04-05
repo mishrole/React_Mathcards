@@ -9,11 +9,6 @@ export const Operation = ({ src, onChange = () => {} }) => {
   const { questionId } = useParams();
   const { questions, updateUserAnswer } = useContext(MainContext);
 
-//   const [{ url }, setState] = useState({
-//     url: src,
-//     // type: "recording"
-//   });
-
   const currentQuestion = questions.find(({ id }) => id === questionId);
 
   const getCurrentIndex = (object, currentId) => {
@@ -63,11 +58,7 @@ export const Operation = ({ src, onChange = () => {} }) => {
     updateUserAnswer(questions, questionId, Number(e.target.innerText));
     console.log(questions);
   }
-
-//   useEffect(() => {
-//     setState({ url: src });
-//   }, [src]);
-
+  
   return (
     <Container>
       <Row>

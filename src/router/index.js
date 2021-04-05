@@ -2,8 +2,6 @@ import { Redirect, Switch, Route } from 'react-router-dom';
 import { MainContextProvider } from '../context/mainContext';
 import { OperationGrid } from '../pages/_home';
 import { OperationQuest } from '../pages/_questions';
-// import { VideoGrid } from '../pages/_home';
-// import { VideoRecorder } from '../pages/_questions';
 
 const Root = () => {
     return (

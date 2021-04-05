@@ -1,11 +1,9 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { Card, Button } from 'react-bootstrap';
 import { generatePath, useHistory } from 'react-router-dom';
-import MainContext from '../../context/mainContext';
 
 export const OperationCard = ( { question }) => {
 
-    const { questions } = useContext(MainContext);
     const history = useHistory();
 
     const handleClick = (questionId) => () => {
