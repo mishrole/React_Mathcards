@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Card, Button } from 'react-bootstrap';
 import { generatePath, useHistory } from 'react-router-dom';
+import MainContext from '../../context/mainContext';
 
 export const OperationCard = ( { question }) => {
 
+    const { questions } = useContext(MainContext);
     const history = useHistory();
 
     const handleClick = (questionId) => () => {
@@ -19,7 +21,17 @@ export const OperationCard = ( { question }) => {
                 </Card.Text>
             </Card.Body>
             <Card.Footer className="text-muted">
-                <Button variant="primary" onClick = { handleClick(question.id) }>Resolver</Button>
+                {
+                    question.userAnswer === ""
+                    ?
+                    (
+                        <Button variant="primary" onClick = { handleClick(question.id) }>Resolver</Button>
+                    )
+                    :
+                    (
+                        <Button variant="secondary" disabled>Resuelto</Button>
+                    )
+                }
             </Card.Footer>
         </Card>
     )
