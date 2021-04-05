@@ -9,6 +9,8 @@ export const Operation = ({ src, onChange = () => {} }) => {
   const { questionId } = useParams();
   const { questions, updateUserAnswer } = useContext(MainContext);
 
+  const [btnState, setBtnState] = useState("active");
+
   const [{ url }, setState] = useState({
     url: src,
     // type: "recording"
@@ -59,6 +61,15 @@ export const Operation = ({ src, onChange = () => {} }) => {
     }
   };
 
+  const handleClickOptions = async (e) => {
+    setBtnState("disabled");
+    updateUserAnswer(questions, questionId, e.target.innerText);
+    // alert(`${e.target.innerText}`)
+    if(e.target.innerText === currentQuestion.answerExpected) {
+        e.target.style.background = "red"
+    }
+  }
+
   useEffect(() => {
     setState({ url: src });
   }, [src]);
@@ -82,7 +93,16 @@ export const Operation = ({ src, onChange = () => {} }) => {
                 <Row className="mt-5 mb-3 text-center">
                   {currentQuestion.answerOptions.map((options, index) => (
                     <Col xs={4} key={`options-${index}`}>
-                      <Button variant="primary">{options}</Button>
+                      {
+                          btnState === "active" ?
+                          (
+                            <Button variant="primary" value = { options } onClick = { handleClickOptions } >{options}</Button>
+                          )
+                          :
+                          (
+                            <Button variant="primary" disabled>{options}</Button>
+                          )
+                      }
                     </Col>
                   ))}
                 </Row>
