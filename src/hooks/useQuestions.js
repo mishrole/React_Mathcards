@@ -31,8 +31,6 @@ export const useQuestions = () => {
                 return { data: Object.assign(questions, question) }
             })
         }
-
-        // console.log(state)
     };
 
     return { state, updateUserAnswer };
