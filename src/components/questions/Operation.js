@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, useContext } from "react";
-import { Card, Button, Container, Row, Col } from "react-bootstrap";
+import { Card, Button, Container, Row, Col, Alert } from "react-bootstrap";
 import { useParams, generatePath, useHistory } from "react-router-dom";
 import MainContext from "../../context/mainContext";
 
@@ -61,13 +61,13 @@ export const Operation = ({ src, onChange = () => {} }) => {
     }
   };
 
-  const handleClickOptions = async (e) => {
-    setBtnState("disabled");
-    updateUserAnswer(questions, questionId, e.target.innerText);
-    // alert(`${e.target.innerText}`)
-    if(e.target.innerText === currentQuestion.answerExpected) {
-        e.target.style.background = "red"
-    }
+  const handleClickOptions = (e) => {
+    // if(e.target.innerText === currentQuestion.answerExpected) {
+    //     e.target.classList = 'btn-secondary'
+    // }
+    // //     setBtnState("disabled");
+    updateUserAnswer(questions, questionId, Number(e.target.innerText));
+    console.log(questions);
   }
 
   useEffect(() => {
@@ -90,21 +90,52 @@ export const Operation = ({ src, onChange = () => {} }) => {
                   {currentQuestion.questionName}
                 </Card.Title>
                 <Card.Text></Card.Text>
-                <Row className="mt-5 mb-3 text-center">
-                  {currentQuestion.answerOptions.map((options, index) => (
-                    <Col xs={4} key={`options-${index}`}>
-                      {
-                          btnState === "active" ?
-                          (
-                            <Button variant="primary" value = { options } onClick = { handleClickOptions } >{options}</Button>
-                          )
-                          :
-                          (
-                            <Button variant="primary" disabled>{options}</Button>
-                          )
-                      }
+                <Row className="mt-5 mb-3 text-center d-flex">
+                    {/* <Col xs = { 4 }>
+                        <Button variant="primary" value = { currentQuestion.answerOptions[0] } onClick = { handleClickOptions } >{currentQuestion.answerOptions[0]}</Button>
                     </Col>
-                  ))}
+                    <Col xs = { 4 }>
+                        <Button variant="primary" value = { currentQuestion.answerOptions[1] } onClick = { handleClickOptions } >{currentQuestion.answerOptions[1]}</Button>
+                    </Col>
+                    <Col xs = { 4 }>
+                        <Button variant="primary" value = { currentQuestion.answerOptions[2] } onClick = { handleClickOptions } >{currentQuestion.answerOptions[2]}</Button>
+                    </Col> */}
+                    {
+                        currentQuestion.userAnswer === ""
+                        ?
+                        (
+                            currentQuestion.answerOptions.map((options, index) => (
+                                <Col xs={4} key={`options-${index}`}>
+                                    <Button variant="primary" value = { options } onClick = { handleClickOptions } >{options}</Button>
+                                </Col>
+                              ))
+                        )
+                        :
+                        (
+                            currentQuestion.userAnswer === currentQuestion.answerExpected
+                            ?
+                            (
+                                <div className="d-flex flex-column col-sm-12">
+                                    <div className="mt-5 mb-5">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-check-circle" viewBox="0 0 16 16">
+                                            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                                            <path d="M10.97 4.97a.235.235 0 0 0-.02.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-1.071-1.05z"/>
+                                        </svg>
+                                    </div>
+                                    <Alert variant = "success" className = "mx-auto text-center">
+                                    La respuesta correcta es { currentQuestion.answerExpected}
+                                    </Alert>
+                                </div>
+                            )
+                            :
+                            (
+                                <Alert variant = "secondary">
+                                La respuesta correcta es { currentQuestion.answerExpected}
+                                </Alert>
+                            )
+                        )
+                    }
+                  
                 </Row>
               </Card.Body>
             </Card>
