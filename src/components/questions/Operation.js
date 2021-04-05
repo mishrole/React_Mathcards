@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useContext } from "react";
+import React, { useContext } from "react";
 import { Card, Button, Container, Row, Col, Alert } from "react-bootstrap";
 import { useParams, generatePath, useHistory } from "react-router-dom";
 import MainContext from "../../context/mainContext";
@@ -9,12 +9,10 @@ export const Operation = ({ src, onChange = () => {} }) => {
   const { questionId } = useParams();
   const { questions, updateUserAnswer } = useContext(MainContext);
 
-  const [btnState, setBtnState] = useState("active");
-
-  const [{ url }, setState] = useState({
-    url: src,
-    // type: "recording"
-  });
+//   const [{ url }, setState] = useState({
+//     url: src,
+//     // type: "recording"
+//   });
 
   const currentQuestion = questions.find(({ id }) => id === questionId);
 
@@ -62,17 +60,13 @@ export const Operation = ({ src, onChange = () => {} }) => {
   };
 
   const handleClickOptions = (e) => {
-    // if(e.target.innerText === currentQuestion.answerExpected) {
-    //     e.target.classList = 'btn-secondary'
-    // }
-    // //     setBtnState("disabled");
     updateUserAnswer(questions, questionId, Number(e.target.innerText));
     console.log(questions);
   }
 
-  useEffect(() => {
-    setState({ url: src });
-  }, [src]);
+//   useEffect(() => {
+//     setState({ url: src });
+//   }, [src]);
 
   return (
     <Container>
@@ -86,20 +80,11 @@ export const Operation = ({ src, onChange = () => {} }) => {
                 {currentQuestion.questionIndex}
               </Card.Header>
               <Card.Body>
-                <Card.Title className="text-center" as="h5">
+                <Card.Title className="text-center mt-3 mb-5" as="h5">
                   {currentQuestion.questionName}
                 </Card.Title>
                 <Card.Text></Card.Text>
-                <Row className="mt-5 mb-3 text-center d-flex">
-                    {/* <Col xs = { 4 }>
-                        <Button variant="primary" value = { currentQuestion.answerOptions[0] } onClick = { handleClickOptions } >{currentQuestion.answerOptions[0]}</Button>
-                    </Col>
-                    <Col xs = { 4 }>
-                        <Button variant="primary" value = { currentQuestion.answerOptions[1] } onClick = { handleClickOptions } >{currentQuestion.answerOptions[1]}</Button>
-                    </Col>
-                    <Col xs = { 4 }>
-                        <Button variant="primary" value = { currentQuestion.answerOptions[2] } onClick = { handleClickOptions } >{currentQuestion.answerOptions[2]}</Button>
-                    </Col> */}
+                <Row className="mt-4 mb-3 text-center d-flex">
                     {
                         currentQuestion.userAnswer === ""
                         ?
@@ -116,32 +101,43 @@ export const Operation = ({ src, onChange = () => {} }) => {
                             ?
                             (
                                 <div className="d-flex flex-column col-sm-12">
-                                    <div className="mt-5 mb-5">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-check-circle" viewBox="0 0 16 16">
+                                    <Alert variant = "success" className = "text-center">
+                                    <div className="mt-4 mb-4">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="#198754" className="bi bi-emoji-smile" viewBox="0 0 16 16">
                                             <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
-                                            <path d="M10.97 4.97a.235.235 0 0 0-.02.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-1.071-1.05z"/>
+                                            <path d="M4.285 9.567a.5.5 0 0 1 .683.183A3.498 3.498 0 0 0 8 11.5a3.498 3.498 0 0 0 3.032-1.75.5.5 0 1 1 .866.5A4.498 4.498 0 0 1 8 12.5a4.498 4.498 0 0 1-3.898-2.25.5.5 0 0 1 .183-.683zM7 6.5C7 7.328 6.552 8 6 8s-1-.672-1-1.5S5.448 5 6 5s1 .672 1 1.5zm4 0c0 .828-.448 1.5-1 1.5s-1-.672-1-1.5S9.448 5 10 5s1 .672 1 1.5z"/>
                                         </svg>
+                                       
                                     </div>
-                                    <Alert variant = "success" className = "mx-auto text-center">
-                                    La respuesta correcta es { currentQuestion.answerExpected}
+                                    <h1 className="pb-4">¡Correcto!</h1>
+                                    La respuesta es { currentQuestion.answerExpected}
                                     </Alert>
                                 </div>
                             )
                             :
                             (
-                                <Alert variant = "secondary">
-                                La respuesta correcta es { currentQuestion.answerExpected}
-                                </Alert>
+                                <div className="d-flex flex-column col-sm-12">
+                                    <Alert variant = "danger" className = "text-center">
+                                    <div className="mt-4 mb-4">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="#dc3545" className="bi bi-emoji-frown" viewBox="0 0 16 16">
+                                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                                        <path d="M4.285 12.433a.5.5 0 0 0 .683-.183A3.498 3.498 0 0 1 8 10.5c1.295 0 2.426.703 3.032 1.75a.5.5 0 0 0 .866-.5A4.498 4.498 0 0 0 8 9.5a4.5 4.5 0 0 0-3.898 2.25.5.5 0 0 0 .183.683zM7 6.5C7 7.328 6.552 8 6 8s-1-.672-1-1.5S5.448 5 6 5s1 .672 1 1.5zm4 0c0 .828-.448 1.5-1 1.5s-1-.672-1-1.5S9.448 5 10 5s1 .672 1 1.5z"/>
+                                    </svg>
+                                    </div>
+                                    <h1 className="pb-4">¡Oh no!</h1>
+                                    La respuesta correcta es { currentQuestion.answerExpected}
+                                    </Alert>
+                                </div>
                             )
                         )
                     }
-                  
                 </Row>
               </Card.Body>
             </Card>
           </Col>
         )}
       </Row>
+
       <div className="d-flex justify-content-around">
         <Button variant="secondary" onClick = { handleClickPrevious }>
           <svg
